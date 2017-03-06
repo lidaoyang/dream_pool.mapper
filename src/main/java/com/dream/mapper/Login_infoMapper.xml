@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.mapper.Login_infoMapper">
+<sql id="sqlsel">id as "id" ,user_id as "user_id" ,type as "type" ,create_time as "create_time" </sql>
+<sql id="upperSel">ID,USER_ID,TYPE,CREATE_TIME</sql>
+  <select id="select" resultType="Login_info" >
+      SELECT <include refid="upperSel"/> FROM login_info 
+       WHERE id=#{id,jdbcType=VARCHAR}  
+  </select>
+  <select id="select_class" parameterType="Map" resultType="Login_info">
+      SELECT <include refid="upperSel"/> FROM login_info 
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="type != null "> AND type = #{type, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+  </select>
+  <select id="select_map" resultType="hashmap" parameterType="Map" >
+      SELECT <include refid="sqlsel"/> FROM login_info
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="type != null "> AND type = #{type, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+   <if test="limit != null">
+    limit ${limit}
+ </if>
+  </select>
+  <select id="select_count" resultType="String" parameterType="Map" >
+      SELECT count(*) FROM login_info
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="type != null "> AND type = #{type, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+  </select>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Login_info">
+      INSERT INTO login_info (id,user_id,type,create_time)VALUES(#{id,jdbcType=VARCHAR},#{user_id,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
+         SELECT LAST_INSERT_ID()
+    </selectKey >
+    INSERT INTO login_info (user_id,type,create_time)VALUES
+    <foreach collection="list" item="login_info" index="index" separator=",">
+  	(#{login_info.user_id},#{login_info.type},#{login_info.create_time})
+    </foreach>
+  </insert>
+  <update id="update" parameterType="Login_info">
+      UPDATE login_info SET
+<if test="id != null ">  id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> , user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="type != null "> , type = #{type, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> , create_time = #{create_time, jdbcType=VARCHAR} </if> 
+      WHERE id=#{id,jdbcType=VARCHAR}  
+  </update>
+  <delete id="delete" >
+      DELETE FROM login_info 
+      WHERE id=#{id,jdbcType=VARCHAR}  
+  </delete>
+</mapper>

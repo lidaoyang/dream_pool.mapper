@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.mapper.Auth_role_functionMapper">
+<sql id="sqlsel">id as "id" ,role_id as "role_id" ,function_id as "function_id" ,status as "status" ,create_time as "create_time" ,update_time as "update_time" </sql>
+<sql id="upperSel">ID,ROLE_ID,FUNCTION_ID,STATUS,CREATE_TIME,UPDATE_TIME</sql>
+  <select id="select" resultType="Auth_role_function" >
+      SELECT <include refid="upperSel"/> FROM auth_role_function 
+       WHERE id=#{id,jdbcType=VARCHAR}  
+  </select>
+  <select id="select_class" parameterType="Map" resultType="Auth_role_function">
+      SELECT <include refid="upperSel"/> FROM auth_role_function 
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="function_id != null "> AND function_id = #{function_id, jdbcType=VARCHAR} </if> 
+<if test="status != null "> AND status = #{status, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+  </select>
+  <select id="select_map" resultType="hashmap" parameterType="Map" >
+      SELECT <include refid="sqlsel"/> FROM auth_role_function
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="function_id != null "> AND function_id = #{function_id, jdbcType=VARCHAR} </if> 
+<if test="status != null "> AND status = #{status, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+   <if test="limit != null">
+    limit ${limit}
+ </if>
+  </select>
+  <select id="select_count" resultType="String" parameterType="Map" >
+      SELECT count(*) FROM auth_role_function
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="function_id != null "> AND function_id = #{function_id, jdbcType=VARCHAR} </if> 
+<if test="status != null "> AND status = #{status, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+  </select>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Auth_role_function">
+      INSERT INTO auth_role_function (role_id,function_id,status,create_time,update_time)VALUES(#{role_id,jdbcType=VARCHAR},#{function_id,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR},#{update_time,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
+         SELECT LAST_INSERT_ID()
+    </selectKey >
+    INSERT IGNORE INTO auth_role_function (role_id,function_id,status,create_time,update_time)VALUES
+    <foreach collection="list" item="auth_role_function" index="index" separator=",">
+  	(#{auth_role_function.role_id},#{auth_role_function.function_id},#{auth_role_function.status},#{auth_role_function.create_time},#{auth_role_function.update_time})
+    </foreach>
+  </insert>
+  <update id="update" parameterType="Auth_role_function">
+      UPDATE auth_role_function SET
+<if test="id != null "> , id = #{id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> , role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="function_id != null "> , function_id = #{function_id, jdbcType=VARCHAR} </if> 
+<if test="status != null "> , status = #{status, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> , create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> , update_time = #{update_time, jdbcType=VARCHAR} </if> 
+      WHERE id=#{id,jdbcType=VARCHAR}  
+  </update>
+  <delete id="delete" >
+      DELETE FROM auth_role_function 
+      WHERE id=#{id,jdbcType=VARCHAR}  
+  </delete>
+  <delete id="deleteRoleIdFunId" >
+      DELETE FROM auth_role_function 
+      WHERE role_id=#{role_id,jdbcType=VARCHAR} and function_id in(${functionIds})
+  </delete>
+  <delete id="delete_roleid" >
+      DELETE FROM auth_role_function 
+      WHERE role_id=#{role_id,jdbcType=VARCHAR}  
+  </delete>
+</mapper>

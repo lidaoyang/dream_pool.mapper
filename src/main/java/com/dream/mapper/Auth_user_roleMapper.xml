@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.mapper.Auth_user_roleMapper">
+<sql id="sqlsel">id as "id" ,user_id as "user_id" ,role_id as "role_id" ,create_time as "create_time" ,update_time as "update_time" </sql>
+<sql id="upperSel">ID,USER_ID,ROLE_ID,CREATE_TIME,UPDATE_TIME</sql>
+  <select id="select" resultType="Auth_user_role" >
+      SELECT <include refid="upperSel"/> FROM auth_user_role 
+       WHERE id=#{id,jdbcType=VARCHAR}  
+  </select>
+  <select id="select_class" parameterType="Map" resultType="Auth_user_role">
+      SELECT <include refid="upperSel"/> FROM auth_user_role 
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+  </select>
+  <select id="select_map" resultType="hashmap" parameterType="Map" >
+      SELECT <include refid="sqlsel"/> FROM auth_user_role
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+   <if test="limit != null">
+    limit ${limit}
+ </if>
+  </select>
+  <select id="select_custmap" resultType="hashmap" parameterType="Map" >
+      SELECT ur.*,u.name 
+      FROM auth_user_role ur
+      inner join auth_user u on u.id=ur.user_id
+      <where>
+<if test="id != null "> AND ur.id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND ur.user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND ur.role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND ur.create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND ur.update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+   <if test="orderby != null">
+    order by ${orderby}
+ </if>
+   <if test="limit != null">
+    limit ${limit}
+ </if>
+  </select>
+  <select id="select_count" resultType="String" parameterType="Map" >
+      SELECT count(*) FROM auth_user_role
+      <where>
+<if test="id != null "> AND id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> AND user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> AND role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> AND create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> AND update_time = #{update_time, jdbcType=VARCHAR} </if> 
+        <if test="otherwhere != null "> AND   ${otherwhere} </if> 
+        </where>
+
+  </select>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Auth_user_role">
+      INSERT INTO auth_user_role (user_id,role_id,create_time,update_time)VALUES(#{user_id,jdbcType=VARCHAR},#{role_id,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR},#{update_time,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
+         SELECT LAST_INSERT_ID()
+    </selectKey >
+    INSERT INTO auth_user_role (user_id,role_id,create_time,update_time)VALUES
+    <foreach collection="list" item="auth_user_role" index="index" separator=",">
+  	(#{auth_user_role.user_id},#{auth_user_role.role_id},#{auth_user_role.create_time},#{auth_user_role.update_time})
+    </foreach>
+  </insert>
+  <update id="update" parameterType="Auth_user_role">
+      UPDATE auth_user_role SET
+<if test="id != null ">  id = #{id, jdbcType=VARCHAR} </if> 
+<if test="user_id != null "> , user_id = #{user_id, jdbcType=VARCHAR} </if> 
+<if test="role_id != null "> , role_id = #{role_id, jdbcType=VARCHAR} </if> 
+<if test="create_time != null "> , create_time = #{create_time, jdbcType=VARCHAR} </if> 
+<if test="update_time != null "> , update_time = #{update_time, jdbcType=VARCHAR} </if> 
+      WHERE id=#{id,jdbcType=VARCHAR}  
+  </update>
+  <delete id="delete" >
+      DELETE FROM auth_user_role 
+      WHERE id=#{id,jdbcType=VARCHAR}  
+  </delete>
+  <delete id="delete_userid" >
+      DELETE FROM auth_user_role 
+      WHERE user_id=#{user_id,jdbcType=VARCHAR}  
+  </delete>
+</mapper>
