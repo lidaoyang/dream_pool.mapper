@@ -55,7 +55,7 @@
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Auth_role">
       INSERT INTO auth_role (name,status,create_time,update_time)VALUES(#{name,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR},#{update_time,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertBatch" parameterType="java.util.List">
+  <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
     <selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
          SELECT LAST_INSERT_ID()
     </selectKey >

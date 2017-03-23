@@ -19,7 +19,9 @@ public interface Auth_role_functionMapper {
   
   int insert(Auth_role_function auth_role_function);
   
-  int insertBatch(ArrayList<Auth_role_function> auth_role_function);
+  int insertBatch(ArrayList<Auth_role_function> list);
+  
+  int insertBatchUpdate(ArrayList<Auth_role_function> list);
   
   int update(Auth_role_function auth_role_function);
   

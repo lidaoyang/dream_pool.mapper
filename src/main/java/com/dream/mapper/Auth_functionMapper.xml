@@ -94,7 +94,7 @@
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Auth_function">
       INSERT INTO auth_function (name,parent_id,url,serial_num,is_navigation,type,create_time,update_time)VALUES(#{name,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{serial_num,jdbcType=VARCHAR},#{is_navigation,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR},#{update_time,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertBatch" parameterType="java.util.List">
+  <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
     <selectKey resultType ="java.lang.Integer" keyProperty= "id" order= "AFTER">
          SELECT LAST_INSERT_ID()
     </selectKey >
