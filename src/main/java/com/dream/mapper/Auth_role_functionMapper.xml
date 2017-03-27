@@ -67,7 +67,7 @@
   	(#{auth_role_function.role_id},#{auth_role_function.function_id},#{auth_role_function.status},#{auth_role_function.create_time},#{auth_role_function.update_time})
     </foreach>
   </insert>
-  <insert id="insertBatchUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+  <insert id="insertBatchUpdate"   parameterType="java.util.List">
     INSERT INTO auth_role_function (role_id,function_id,status,create_time,update_time)VALUES
     <foreach collection="list" item="auth_role_function" index="index" separator=",">
   	(#{auth_role_function.role_id},#{auth_role_function.function_id},#{auth_role_function.status},#{auth_role_function.create_time},#{auth_role_function.update_time})
